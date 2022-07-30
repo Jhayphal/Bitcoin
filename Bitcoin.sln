@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bitcoin", "Bitcoin\Bitcoin.csproj", "{00C1D2F0-13C1-43FE-9AF3-710F4663AE45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurrencyMonitor", "CurrencyMonitor\CurrencyMonitor.csproj", "{E7638B77-107A-4A3E-BE47-F9E8F8F1E28B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bitcoininfo", "Bitcoininfo\Bitcoininfo.csproj", "{CDA8CA5F-3818-40A9-8E28-C3EE1E2902B5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{00C1D2F0-13C1-43FE-9AF3-710F4663AE45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00C1D2F0-13C1-43FE-9AF3-710F4663AE45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00C1D2F0-13C1-43FE-9AF3-710F4663AE45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00C1D2F0-13C1-43FE-9AF3-710F4663AE45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7638B77-107A-4A3E-BE47-F9E8F8F1E28B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7638B77-107A-4A3E-BE47-F9E8F8F1E28B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7638B77-107A-4A3E-BE47-F9E8F8F1E28B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7638B77-107A-4A3E-BE47-F9E8F8F1E28B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDA8CA5F-3818-40A9-8E28-C3EE1E2902B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDA8CA5F-3818-40A9-8E28-C3EE1E2902B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDA8CA5F-3818-40A9-8E28-C3EE1E2902B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDA8CA5F-3818-40A9-8E28-C3EE1E2902B5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D6A444A9-A854-46E1-8E1A-0A4CE9AD2397}
+	EndGlobalSection
+EndGlobal
