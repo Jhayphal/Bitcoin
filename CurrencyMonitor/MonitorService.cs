@@ -1,12 +1,7 @@
-﻿using Bitcoininfo;
-using System;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
+﻿using Monitor;
 using System.IO;
-using System.Linq;
 using System.ServiceProcess;
-using System.Text;
+using System.Threading.Tasks;
 using Timer = System.Timers.Timer;
 
 namespace CurrencyMonitor
@@ -14,80 +9,60 @@ namespace CurrencyMonitor
   public partial class MonitorService : ServiceBase
   {
     private const string ConfigFile = @"D:\monitor.conf";
-
-    private readonly CurrencyRateCache cache = new CurrencyRateCache();
-    
-    private MonitorConfiguration configuration;
+    private readonly CurrencyObserver observer;
     private Timer clock;
 
     public MonitorService()
     {
       InitializeComponent();
+
+      observer = new CurrencyObserver(new CurrencyRateCache());
+      observer.OnFound += (object sender, (double rate, Checkpoint checkpoint) e)
+        => SendMails($"Current rate: {e.rate:D2}. Checkpoint: {e.checkpoint.Value:D2}");
     }
 
     protected override void OnStart(string[] args)
     {
-      ReadConfig(ConfigFile);
       SetupTimer();
       Run();
     }
 
     private void Run()
     {
-      Clock_Elapsed(this, null);
+      Observe().GetAwaiter().GetResult();
       
       clock.Start();
     }
 
     private void SetupTimer()
     {
+      var configuration = ReadConfig();
       clock = new Timer(configuration.IntervalInMinutes * 60d * 1000d);
-      clock.Elapsed += Clock_Elapsed;
+      clock.Elapsed += async (s, e) => await Observe();
     }
 
-    private async void Clock_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-    {
-      try
-      {
-        foreach (var checkpoint in configuration.Checkpoints)
-        {
-          var rate = await cache.GetRate(checkpoint.Currency);
+    private async Task Observe() => await observer.Observe(ReadConfig());
 
-          if (rate.HasValue)
-            Check(rate.Value, checkpoint, configuration.Emails);
-        }
-      }
-      finally
-      {
-        cache.Clear();
-      }
-    }
+    protected override void OnStop() => clock.Stop();
 
-    private void Check(double rate, Checkpoint checkpoint, string[] emails)
+    private MonitorConfiguration ReadConfig()
     {
-      if (checkpoint.Higher ? rate > checkpoint.Value : rate < checkpoint.Value)
-      {
-        SendMails(emails);
-      }
-    }
-
-    private void SendMails(string[] emails)
-    {
-      throw new NotImplementedException();
-    }
-
-    protected override void OnStop()
-    {
-      clock.Stop();
-    }
-
-    private void ReadConfig(string filePath)
-    {
-      using (var reader = new StreamReader(filePath))
+      using (var reader = new StreamReader(ConfigFile))
       {
         var plainText = reader.ReadToEnd();
-        configuration = MonitorConfiguration.FromJson(plainText);
+        
+        return MonitorConfiguration.FromJson(plainText);
       }
+    }
+
+    private void SendMails(string text)
+    {
+      MonitorConfiguration configuration = ReadConfig();
+
+      MailAgent agent = new MailAgent(configuration.MailSender);
+
+      foreach (var receiver in configuration.MailReceivers)
+        agent.SendMail(receiver, "Checkpoint triggered", text, isHtml: false);
     }
   }
 }

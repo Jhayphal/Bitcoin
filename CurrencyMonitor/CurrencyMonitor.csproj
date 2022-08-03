@@ -44,8 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CurrencyRateCache.cs" />
-    <Compile Include="MonitorConfiguration.cs" />
     <Compile Include="MonitorService.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -59,15 +57,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bitcoininfo\Bitcoininfo.csproj">
-      <Project>{CDA8CA5F-3818-40A9-8E28-C3EE1E2902B5}</Project>
-      <Name>Bitcoininfo</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Monitor\Monitor.csproj">
+      <Project>{923EEEB5-2B48-4CF4-A8C4-F509700D1F59}</Project>
+      <Name>Monitor</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
