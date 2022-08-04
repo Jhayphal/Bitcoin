@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bitcoininfo", "Bitcoininfo\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MonitorService", "MonitorService", "{C7248B09-8BC0-462B-AD03-D43CFD4F754F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monitor", "Monitor\Monitor.csproj", "{923EEEB5-2B48-4CF4-A8C4-F509700D1F59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monitor", "Monitor\Monitor.csproj", "{923EEEB5-2B48-4CF4-A8C4-F509700D1F59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monitor.Tests", "Monitor.Tests\Monitor.Tests.csproj", "{2F0B23BE-3056-4D20-B44F-DFFC66CD1B7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{923EEEB5-2B48-4CF4-A8C4-F509700D1F59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{923EEEB5-2B48-4CF4-A8C4-F509700D1F59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{923EEEB5-2B48-4CF4-A8C4-F509700D1F59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F0B23BE-3056-4D20-B44F-DFFC66CD1B7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F0B23BE-3056-4D20-B44F-DFFC66CD1B7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F0B23BE-3056-4D20-B44F-DFFC66CD1B7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F0B23BE-3056-4D20-B44F-DFFC66CD1B7F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +49,7 @@ Global
 		{E7638B77-107A-4A3E-BE47-F9E8F8F1E28B} = {C7248B09-8BC0-462B-AD03-D43CFD4F754F}
 		{CDA8CA5F-3818-40A9-8E28-C3EE1E2902B5} = {C7248B09-8BC0-462B-AD03-D43CFD4F754F}
 		{923EEEB5-2B48-4CF4-A8C4-F509700D1F59} = {C7248B09-8BC0-462B-AD03-D43CFD4F754F}
+		{2F0B23BE-3056-4D20-B44F-DFFC66CD1B7F} = {C7248B09-8BC0-462B-AD03-D43CFD4F754F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6A444A9-A854-46E1-8E1A-0A4CE9AD2397}
