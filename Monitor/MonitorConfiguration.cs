@@ -45,6 +45,12 @@ namespace Monitor
     [JsonProperty("host", Required = Required.Always)]
     public string Host { get; set; }
 
+    [JsonProperty("port", Required = Required.Always)]
+    public int Port { get; set; }
+
+    [JsonProperty("use_ssl", Required = Required.Always)]
+    public bool UseSsl { get; set; }
+
     [JsonProperty("email", Required = Required.Always)]
     public string Email { get; set; }
 
