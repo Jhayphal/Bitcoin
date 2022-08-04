@@ -12,11 +12,11 @@ namespace Monitor
     public CurrencyObserver(ICurrencyRateProvider rateProvider)
       => this.rateProvider = rateProvider ?? throw new ArgumentNullException(nameof(rateProvider));
 
-    public async Task Observe(MonitorConfiguration configuration)
+    public async Task Observe(Checkpoint[] checkpoints)
     {
       try
       {
-        foreach (var checkpoint in configuration.Checkpoints)
+        foreach (var checkpoint in checkpoints)
         {
           var rate = await rateProvider.GetRate(checkpoint.Currency);
 
