@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Bitcoininfo\Bitcoininfo.csproj" />
+    <ProjectReference Include="..\Monitor\Monitor.csproj" />
   </ItemGroup>
 
 </Project>

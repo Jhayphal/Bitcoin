@@ -1,28 +1,58 @@
 ﻿using System.Globalization;
+using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace Monitor
 {
-  public partial class MonitorConfiguration
+  public sealed class MonitorConfiguration
   {
     [JsonProperty("interval_in_minutes", Required = Required.Always)]
-    public long IntervalInMinutes { get; set; }
+    public int IntervalInMinutes { get; set; }
 
-    [JsonProperty("mail_receivers", Required = Required.Always)]
-    public string[] MailReceivers { get; set; }
-
-    [JsonProperty("mail_sender", Required = Required.Always)]
-    public MailSender MailSender { get; set; }
+    [JsonProperty("tolerance", Required = Required.Always)]
+    public double Tolerance { get; set; }
 
     [JsonProperty("cryptocompare_key", Required = Required.Always)]
     public string CryptocompareKey { get; set; }
 
+    [JsonProperty("mail_sender", Required = Required.Always)]
+    public MailSender MailSender { get; set; }
+
+    [JsonProperty("mail_receivers", Required = Required.Always)]
+    public string[] MailReceivers { get; set; }
+
     [JsonProperty("checkpoints", Required = Required.Always)]
     public Checkpoint[] Checkpoints { get; set; }
+
+    public string ToJson()
+      => JsonConvert.SerializeObject(this, Converter.Settings);
+
+    public void Write(string fileName)
+    {
+      using (var writer = new StreamWriter(fileName))
+      {
+        var plainText = ToJson();
+
+        writer.Write(plainText);
+      }
+    }
+
+    public static MonitorConfiguration FromJson(string json)
+      => JsonConvert.DeserializeObject<MonitorConfiguration>(json, Converter.Settings);
+
+    public static MonitorConfiguration Read(string fileName)
+    {
+      using (var reader = new StreamReader(fileName))
+      {
+        var plainText = reader.ReadToEnd();
+
+        return FromJson(plainText);
+      }
+    }
   }
 
-  public partial class Checkpoint
+  public sealed class Checkpoint
   {
     [JsonProperty("currency", Required = Required.Always)]
     public string Currency { get; set; }
@@ -32,9 +62,12 @@ namespace Monitor
 
     [JsonProperty("higher", Required = Required.Always)]
     public bool Higher { get; set; }
+
+    [JsonProperty("was_sended", Required = Required.Always)]
+    public bool WasSended { get; set; }
   }
 
-  public partial class MailSender
+  public sealed class MailSender
   {
     [JsonProperty("user", Required = Required.Always)]
     public string User { get; set; }
@@ -54,18 +87,8 @@ namespace Monitor
     [JsonProperty("email", Required = Required.Always)]
     public string Email { get; set; }
 
-    [JsonProperty("display_name", Required = Required.Always)]
+    [JsonProperty("display_name", Required = Required.AllowNull)]
     public string DisplayName { get; set; }
-  }
-
-  public partial class MonitorConfiguration
-  {
-    public static MonitorConfiguration FromJson(string json) => JsonConvert.DeserializeObject<MonitorConfiguration>(json, Converter.Settings);
-  }
-
-  public static class Serialize
-  {
-    public static string ToJson(this MonitorConfiguration self) => JsonConvert.SerializeObject(self, Converter.Settings);
   }
 
   internal static class Converter
@@ -75,9 +98,9 @@ namespace Monitor
       MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
       DateParseHandling = DateParseHandling.None,
       Converters =
-            {
-                new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
-            },
+      {
+        new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
+      },
     };
   }
 }

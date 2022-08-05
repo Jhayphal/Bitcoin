@@ -7,16 +7,9 @@ namespace Monitor.Tests
     [SetUp]
     public void Setup()
     {
-      agent = new MailAgent(new MailSender
-      {
-        User = "*******@gmail.com",
-        Password = "********",
-        DisplayName = "Bitcoin mail test",
-        Email = "*********@gmail.com",
-        Host = "smtp.gmail.com",
-        Port = 587,
-        UseSsl = true
-      });
+      var configuration = MonitorConfiguration.Read(@"D:\monitor.conf");
+
+      agent = new MailAgent(configuration.MailSender);
     }
 
     [Test]
