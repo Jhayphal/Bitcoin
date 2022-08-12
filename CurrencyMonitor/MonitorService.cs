@@ -13,7 +13,7 @@ namespace CurrencyMonitor
     {
       InitializeComponent();
 
-      AutoLog = false;
+      AutoLog = true;
       ServiceName = Name;
       CanPauseAndContinue = false;
       CanHandlePowerEvent = false;

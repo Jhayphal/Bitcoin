@@ -13,7 +13,7 @@ namespace CurrencyMonitor
 
       ServiceProcessInstaller processInstaller = new ServiceProcessInstaller
       {
-        Account = ServiceAccount.LocalService
+        Account = ServiceAccount.LocalSystem
       };
 
       ServiceInstaller serviceInstaller = new ServiceInstaller

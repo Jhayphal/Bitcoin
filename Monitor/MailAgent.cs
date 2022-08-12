@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Diagnostics;
+using System.Net;
 using System.Net.Mail;
 
 namespace Monitor
@@ -32,6 +33,8 @@ namespace Monitor
       };
 
       smtpClient.Send(mail);
+
+      Trace.WriteLine($"The mail was sended to {receiver}");
     }
   }
 }

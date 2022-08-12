@@ -20,12 +20,14 @@ namespace Monitor
     public void OnStart()
     {
       observer.OnFound += (object sender, (double rate, Checkpoint checkpoint) e)
-        => SendMails($"Current rate: {e.rate:D2}. Checkpoint: {e.checkpoint.Value:D2}");
+        => SendMails($"Current rate: {e.rate:F2}. Checkpoint: {e.checkpoint.Value:F2}");
 
       clock.AutoReset = false;
       clock.Elapsed += async (s, e) => await Inspect(tokenSource.Token);
 
       Task.Run(() => Inspect(tokenSource.Token));
+
+      Trace.WriteLine("Service started");
     }
 
     public void OnStop()
@@ -36,6 +38,8 @@ namespace Monitor
       {
         Thread.Sleep(50);
       }
+
+      Trace.WriteLine($"Service stoped");
     }
 
     private async Task Inspect(CancellationToken cancellationToken)
@@ -69,6 +73,8 @@ namespace Monitor
       {
         Running = false;
       }
+
+      Trace.WriteLine($"Inspected");
 
       if (!tokenSource.IsCancellationRequested)
       {
