@@ -1,4 +1,5 @@
-﻿using System.ServiceProcess;
+﻿using System.Diagnostics;
+using System.ServiceProcess;
 
 namespace CurrencyMonitor
 {
@@ -9,12 +10,9 @@ namespace CurrencyMonitor
     /// </summary>
     static void Main()
     {
-      ServiceBase[] ServicesToRun;
-      ServicesToRun = new ServiceBase[]
-      {
-                new MonitorService()
-      };
-      ServiceBase.Run(ServicesToRun);
+      Trace.Listeners.Add(new EventLogTraceListener(nameof(CurrencyMonitor)));
+
+      ServiceBase.Run(new MonitorService());
     }
   }
 }

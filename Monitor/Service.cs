@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
+using Timer = System.Timers.Timer;
 
 namespace Monitor
 {
@@ -12,21 +13,42 @@ namespace Monitor
     private readonly CurrencyObserver observer = new CurrencyObserver(new CurrencyRateCache());
     private readonly Timer clock = new Timer();
 
+    private readonly CancellationTokenSource tokenSource = new CancellationTokenSource();
+
+    public bool Running { get; private set; }
+
     public void OnStart()
     {
       observer.OnFound += (object sender, (double rate, Checkpoint checkpoint) e)
         => SendMails($"Current rate: {e.rate:D2}. Checkpoint: {e.checkpoint.Value:D2}");
 
       clock.AutoReset = false;
-      clock.Elapsed += async (s, e) => await Inspect();
+      clock.Elapsed += async (s, e) => await Inspect(tokenSource.Token);
 
-      Task.Run(Inspect);
+      Task.Run(() => Inspect(tokenSource.Token));
     }
 
-    public void OnStop() => clock?.Dispose();
-
-    private async Task Inspect()
+    public void OnStop()
     {
+      clock.Dispose();
+
+      while (Running)
+      {
+        Thread.Sleep(50);
+      }
+    }
+
+    private async Task Inspect(CancellationToken cancellationToken)
+    {
+      if (cancellationToken.IsCancellationRequested)
+      {
+        OnStop();
+
+        return;
+      }
+
+      Running = true;
+
       MonitorConfiguration configuration;
 
       try
@@ -43,9 +65,16 @@ namespace Monitor
 
         return;
       }
+      finally
+      {
+        Running = false;
+      }
 
-      clock.Interval = configuration.IntervalInMinutes * 60d * 1000d;
-      clock.Start();
+      if (!tokenSource.IsCancellationRequested)
+      {
+        clock.Interval = configuration.IntervalInMinutes * 60d * 1000d;
+        clock.Start();
+      }
     }
 
     private void SendMails(string text)
