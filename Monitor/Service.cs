@@ -26,6 +26,8 @@ namespace Monitor
       clock.Elapsed += async (s, e) => await Inspect(tokenSource.Token);
 
       Task.Run(() => Inspect(tokenSource.Token));
+
+      Trace.WriteLine("Service started");
     }
 
     public void OnStop()
@@ -36,6 +38,8 @@ namespace Monitor
       {
         Thread.Sleep(50);
       }
+
+      Trace.WriteLine($"Service stoped");
     }
 
     private async Task Inspect(CancellationToken cancellationToken)
@@ -69,6 +73,8 @@ namespace Monitor
       {
         Running = false;
       }
+
+      Trace.WriteLine($"Inspected");
 
       if (!tokenSource.IsCancellationRequested)
       {
