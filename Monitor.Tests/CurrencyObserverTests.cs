@@ -20,15 +20,21 @@
       bool found = false;
       observer.OnFound += (s, e) => found = true;
 
-      await observer.Observe(new Checkpoint[]
+      var conf = new MonitorConfiguration
       {
-        new Checkpoint
+        Tolerance = 1000,
+        Checkpoints = new Checkpoint[]
         {
-          Currency = "USD",
-          Value = 18000d,
-          Higher = false
+          new Checkpoint
+          {
+            Currency = "USD",
+            Value = 18000d,
+            Higher = false
+          }
         }
-      });
+      };
+
+      await observer.Observe(conf);
 
       Assert.IsTrue(found);
     }
@@ -39,15 +45,21 @@
       bool found = false;
       observer.OnFound += (s, e) => found = true;
 
-      await observer.Observe(new Checkpoint[]
+      var conf = new MonitorConfiguration
       {
-        new Checkpoint
+        Tolerance = 1000,
+        Checkpoints = new Checkpoint[]
         {
-          Currency = "USD",
-          Value = 16999d,
-          Higher = true
+          new Checkpoint
+          {
+            Currency = "USD",
+            Value = 16999d,
+            Higher = true
+          }
         }
-      });
+      };
+
+      await observer.Observe(conf);
 
       Assert.IsTrue(found);
     }
@@ -58,15 +70,21 @@
       bool found = false;
       observer.OnFound += (s, e) => found = true;
 
-      await observer.Observe(new Checkpoint[]
+      var conf = new MonitorConfiguration
       {
-        new Checkpoint
+        Tolerance = 1000,
+        Checkpoints = new Checkpoint[]
         {
-          Currency = "USD",
-          Value = 17001d,
-          Higher = true
+          new Checkpoint
+          {
+            Currency = "USD",
+            Value = 17001d,
+            Higher = true
+          }
         }
-      });
+      };
+
+      await observer.Observe(conf);
 
       Assert.IsFalse(found);
     }
@@ -77,15 +95,21 @@
       bool found = false;
       observer.OnFound += (s, e) => found = true;
 
-      await observer.Observe(new Checkpoint[]
+      var conf = new MonitorConfiguration
       {
-        new Checkpoint
+        Tolerance = 1000,
+        Checkpoints = new Checkpoint[]
         {
-          Currency = "USD",
-          Value = 15699d,
-          Higher = false
+          new Checkpoint
+          {
+            Currency = "USD",
+            Value = 15699d,
+            Higher = false
+          }
         }
-      });
+      };
+
+      await observer.Observe(conf);
 
       Assert.IsFalse(found);
     }
