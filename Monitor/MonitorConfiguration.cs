@@ -19,54 +19,54 @@ namespace Monitor
     }
   }
 
-  public sealed class MonitorConfiguration : Changeable
+  public class MonitorConfiguration : Changeable
   {
-    private int intervalInMinutes;
-    private double tolerance;
-    private string cryptocompareKey;
-    private MailSender mailSender;
-    private string[] mailReceivers;
-    private Checkpoint[] checkpoints;
+    protected int intervalInMinutes;
+    protected double tolerance;
+    protected string cryptocompareKey;
+    protected MailSender mailSender;
+    protected string[] mailReceivers;
+    protected Checkpoint[] checkpoints;
 
     public override bool HasChanges => base.HasChanges || MailSender.HasChanges || Checkpoints.Any(c => c.HasChanges);
 
     [JsonProperty("interval_in_minutes", Required = Required.Always)]
-    public int IntervalInMinutes
+    public virtual int IntervalInMinutes
     {
       get => intervalInMinutes;
       set => SetValue(ref intervalInMinutes, value);
     }
 
     [JsonProperty("tolerance", Required = Required.Always)]
-    public double Tolerance
+    public virtual double Tolerance
     {
       get => tolerance;
       set => SetValue(ref tolerance, value);
     }
 
     [JsonProperty("cryptocompare_key", Required = Required.Always)]
-    public string CryptocompareKey
+    public virtual string CryptocompareKey
     {
       get => cryptocompareKey;
       set => SetValue(ref cryptocompareKey, value);
     }
 
     [JsonProperty("mail_sender", Required = Required.Always)]
-    public MailSender MailSender
+    public virtual MailSender MailSender
     {
       get => mailSender;
       set => SetValue(ref mailSender, value);
     }
 
     [JsonProperty("mail_receivers", Required = Required.Always)]
-    public string[] MailReceivers
+    public virtual string[] MailReceivers
     {
       get => mailReceivers;
       set => SetValue(ref mailReceivers, value);
     }
 
     [JsonProperty("checkpoints", Required = Required.Always)]
-    public Checkpoint[] Checkpoints
+    public virtual Checkpoint[] Checkpoints
     {
       get => checkpoints;
       set => SetValue(ref checkpoints, value);
@@ -75,7 +75,7 @@ namespace Monitor
     public string ToJson()
       => JsonConvert.SerializeObject(this, Converter.Settings);
 
-    public void Write(string fileName)
+    public virtual void Write(string fileName)
     {
       if (HasChanges)
       {
@@ -89,96 +89,96 @@ namespace Monitor
     public static MonitorConfiguration Read(string fileName) => FromJson(File.ReadAllText(fileName));
   }
 
-  public sealed class Checkpoint : Changeable
+  public class Checkpoint : Changeable
   {
-    private string currency;
-    private double value;
-    private bool higher;
-    private bool wasSended;
+    protected string currency;
+    protected double value;
+    protected bool higher;
+    protected bool wasSended;
 
     [JsonProperty("currency", Required = Required.Always)]
-    public string Currency
+    public virtual string Currency
     {
       get => currency;
       set => SetValue(ref currency, value);
     }
 
     [JsonProperty("value", Required = Required.Always)]
-    public double Value
+    public virtual double Value
     {
       get => value;
       set => SetValue(ref this.value, value);
     }
 
     [JsonProperty("higher", Required = Required.Always)]
-    public bool Higher
+    public virtual bool Higher
     {
       get => higher;
       set => SetValue(ref higher, value);
     }
 
     [JsonProperty("was_sended", Required = Required.Always)]
-    public bool WasSended
+    public virtual bool WasSended
     {
       get => wasSended;
       set => SetValue(ref wasSended, value);
     }
   }
 
-  public sealed class MailSender : Changeable
+  public class MailSender : Changeable
   {
-    private string user;
-    private string password;
-    private string host;
-    private int port;
-    private bool useSsl;
-    private string email;
-    private string displayName;
+    protected string user;
+    protected string password;
+    protected string host;
+    protected int port;
+    protected bool useSsl;
+    protected string email;
+    protected string displayName;
 
     [JsonProperty("user", Required = Required.Always)]
-    public string User
+    public virtual string User
     {
       get => user;
       set => SetValue(ref user, value);
     }
 
     [JsonProperty("password", Required = Required.Always)]
-    public string Password
+    public virtual string Password
     {
       get => password;
       set => SetValue(ref password, value);
     }
 
     [JsonProperty("host", Required = Required.Always)]
-    public string Host
+    public virtual string Host
     {
       get => host;
       set => SetValue(ref host, value);
     }
 
     [JsonProperty("port", Required = Required.Always)]
-    public int Port
+    public virtual int Port
     {
       get => port;
       set => SetValue(ref port, value);
     }
 
     [JsonProperty("use_ssl", Required = Required.Always)]
-    public bool UseSsl
+    public virtual bool UseSsl
     {
       get => useSsl;
       set => SetValue(ref useSsl, value);
     }
 
     [JsonProperty("email", Required = Required.Always)]
-    public string Email
+    public virtual string Email
     {
       get => email;
       set => SetValue(ref email, value);
     }
 
     [JsonProperty("display_name", Required = Required.AllowNull)]
-    public string DisplayName
+    public virtual string DisplayName
     {
       get => displayName;
       set => SetValue(ref displayName, value);

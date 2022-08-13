@@ -8,6 +8,7 @@ namespace Monitor
 {
   public sealed class Service
   {
+    public static string ConfigFileUri = "config.path";
     private const string ConfigFile = @"D:\monitor.conf";
 
     private readonly CurrencyObserver observer = new CurrencyObserver(new CurrencyRateCache());
